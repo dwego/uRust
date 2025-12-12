@@ -10,11 +10,11 @@ fn main() -> anyhow::Result<()> {
 
     let peripherals: Peripherals = Peripherals::take().unwrap();
     let mut led: UrPinsContext<Gpio2> = UrPinsContext::new(peripherals.pins.gpio2);
-
+    let _timer = modules::ur_timer_context::UrTimerContext;
     loop {
         led.set(true);
-        std::thread::sleep(std::time::Duration::from_millis(500));
+        _timer.sleep_ms(500);
         led.set(false);
-        std::thread::sleep(std::time::Duration::from_millis(500));
+        _timer.sleep_ms(500);
     }
 }
