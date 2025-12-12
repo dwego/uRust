@@ -1,11 +1,11 @@
 use esp_idf_hal::gpio::{Output, OutputPin, PinDriver};
 
-pub struct UrLed<PIN: OutputPin> {
+pub struct UrPinsContext<PIN: OutputPin> {
     pin: PinDriver<'static, PIN, Output>,
     is_on: bool,
 }
 
-impl<PIN: OutputPin> UrLed<PIN> {
+impl<PIN: OutputPin> UrPinsContext<PIN> {
     pub fn new(pin: PIN) -> Self {
         let driver = PinDriver::output(pin).unwrap();
         Self { pin: driver, is_on: false }

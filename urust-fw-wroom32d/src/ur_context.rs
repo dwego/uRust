@@ -1,6 +1,6 @@
-use crate::ur_led::UrLed;
+use crate::modules::ur_pins_context::UrPinsContext;
 use esp_idf_hal::gpio::OutputPin;
 
 pub struct UrContext<PIN: OutputPin> {
-    pub led: UrLed<PIN>,
+    pub led: UrPinsContext<PIN>,
 }
