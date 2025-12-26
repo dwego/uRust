@@ -1,19 +1,28 @@
-mod ur_context;
+use anyhow::Result;
+
+use crate::modules::gpio::{
+    UrGpioContext,
+    Esp32Wroom32dPinResolver,
+};
+
 mod modules;
+mod error;
 
-use esp_idf_hal::prelude::*;
-use esp_idf_hal::gpio::{Gpio2};
-use crate::modules::ur_pins_context::{UrPinsContext};
+fn main() -> Result<()> {
+    let resolver = Esp32Wroom32dPinResolver::new();
 
-fn main() -> anyhow::Result<()> {
-    println!("uRust: Hello from ESP32-WROOM-32D!");
+    let gpio = UrGpioContext::new(Box::new(resolver));
 
-    let peripherals: Peripherals = Peripherals::take().unwrap();
-    let mut led: UrPinsContext<Gpio2> = UrPinsContext::new(peripherals.pins.gpio2);
+    let mut led = gpio.out(2)?;
+    let mut led2 = gpio.out(13)?;
 
     loop {
         led.set(true);
+        led2.set(false);
         std::thread::sleep(std::time::Duration::from_millis(500));
+
+
+        led2.set(true);
         led.set(false);
         std::thread::sleep(std::time::Duration::from_millis(500));
     }
